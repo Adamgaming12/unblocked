@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade Hub | Unblocked Games</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --container-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--container-bg);
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            flex-grow: 1;
+        }
+
+        .game-card {
+            background-color: var(--container-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: 1px solid #334155;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .game-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .game-info {
+            padding: 1.25rem;
+        }
+
+        .game-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-desc {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .play-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--accent-color);
+            color: white;
+            text-align: center;
+            border-none;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .play-btn:hover {
+            background-color: #2563eb;
+        }
+
+        /* Modal / Frame Viewer Setup */
+        .game-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 960px;
+            height: 80vh;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            color: #ef4444;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        footer {
+            background-color: #0b0f19;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            border-top: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🕹️ Arcade Hub</h1>
+        <p>Your favorite web games, completely unblocked and ready to play.</p>
+    </header>
+
+    <main class="container" id="games-grid">
+        </main>
+
+    <div class="game-modal" id="gameModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeGame()">✕ Close Game</button>
+            <iframe id="gameFrame" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Arcade Hub. Built entirely with vanilla HTML, CSS, and JS.</p>
+    </footer>
+
+    <script>
+        // Array containing the index of unblocked web games 
+        // Using stable, open-source or CDN-hosted versions of classic web games
+        const gamesList = [
+            {
+                title: "2048",
+                desc: "Slide matching numbers together to reach the legendary 2048 tile!",
+                emoji: "🔢",
+                url: "https://gabrielecirulli.github.io/2048/"
+            },
+            {
+                title: "Hextris",
+                desc: "An addictive, fast-paced puzzle game inspired by Tetris but on a hexagon.",
+                emoji: "🔷",
+                url: "https://hextris.io/"
+            },
+            {
+                title: "Flappy Bird (HTML5)",
+                desc: "Guide the tiny bird through tricky green pipes without crashing.",
+                emoji: "🐦",
+                url: "https://ellisonleao.github.io/clumsy-bird/"
+            },
+            {
+                title: "Breakout",
+                desc: "Classic arcade brick-breaker built completely with canvas physics.",
+                emoji: "🧱",
+                url: "https://mdn.github.io/2d-breakout-game/"
+            },
+            {
+                title: "Snake Game",
+                desc: "The vintage retro arcade snake. Eat the apples, grow long, don't hit the walls.",
+                emoji: "🐍",
+                url: "https://thegpx.github.io/bSnake/"
+            },
+            {
+                title: "Tetris JS",
+                desc: "Clear rows of falling tetromino geometric blocks in this clean web clone.",
+                emoji: "🕹️",
+                url: "https://dionyziz.github.io/canvas-tetris/"
+            }
+        ];
+
+        const grid = document.getElementById('games-grid');
+        const modal = document.getElementById('gameModal');
+        const frame = document.getElementById('gameFrame');
+
+        // Generate the HTML code for all the games dynamically
+        function loadGames() {
+            gamesList.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.innerHTML = `
+                    <div class="game-thumbnail">${game.emoji}</div>
+                    <div class="game-info">
+                        <div class="game-title">${game.title}</div>
+                        <p class="game-desc">${game.desc}</p>
+                        <button class="play-btn" onclick="playGame('${game.url}')">Play Now</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Handle opening the game in the interactive frame container
+        function playGame(url) {
+            frame.src = url;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Stop background scrolling
+        }
+
+        // Close and unload the game frame
+        function closeGame() {
+            modal.style.display = 'none';
+            frame.src = '';
+            document.body.style.overflow = 'auto'; // Restore background scrolling
+        }
+
+        // Initialize on page load
+        window.onload = loadGames;
+    </script>
+</body>
+</html>
